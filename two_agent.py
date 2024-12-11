@@ -310,7 +310,16 @@ def main():
  
     try:
         # Read and transform waypoints from the YAML file
-        coordinates = read_and_transform_waypoints("./cbs_output.yaml", matrix)
+        coordinates = read_and_transform_waypoints("./cbs_output1_part1.yaml", matrix)
+        coordinates2 = read_and_transform_waypoints("./cbs_output_part2.yaml", matrix)
+        pose103 = rospy.wait_for_message(f'/id103/aruco_single/pose', PoseStamped, timeout=5)
+        coordinates2[0].insert(0, [pose102.pose.position.x, pose102.pose.position.y])
+        coordinates2[1].insert(0, [pose103.pose.position.x, pose103.pose.position.y])
+        coordinates_full = []
+        coordinate3 = coordinates1[0] + (coordinates2[0])
+        coordinate4 = coordinates1[1] + (coordinates2[1])
+        coordinates_full.append(coordinate3)
+        coordinates_full.append(coordinate4)
     except Exception as e:
         rospy.logerr(f"Failed to read and transform waypoints: {e}")
         return
@@ -323,7 +332,7 @@ def main():
     aruco_id2 = "id101"
     # Begin the navigation process
     # navigation(turtlebot_name, aruco_id, coordinates)s
-    run([turtlebot_name1, turtlebot_name2], [aruco_id1, aruco_id2], coordinates)
+    run([turtlebot_name1, turtlebot_name2], [aruco_id1, aruco_id2], [coordinates_full[0],coordinates_full[1]])
  
 if __name__ == "__main__":
     try:
