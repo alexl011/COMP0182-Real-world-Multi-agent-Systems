@@ -1,4 +1,4 @@
-# COMP0182-Real-world-Multi-agent-Systems
+# COMP0182-Real-world Multi-agent-Systems Final Challenge
 ### Install required packages
 ```bash
 #Install necessary dependencies: 
